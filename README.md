@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# USPG_AV
 
-## Getting Started
+## Descripción
 
-First, run the development server:
+USPG_AV es un proyecto universitario desarrollado con Next.js y TypeScript. Este sistema permite gestionar notas, recordatorios y calendarizaciones de las notas. Es una herramienta ideal para estudiantes y profesores que buscan organizar su información académica de manera eficiente.
+
+## Instalación
+
+Para instalar y configurar el proyecto, seguí estos pasos:
+
+1. Cloná el repositorio:
+
+   ```bash
+   git clone https://github.com/tu-usuario/uspg_av.git
+   ```
+
+2. Navegá al directorio del proyecto:
+
+   ```bash
+   cd uspg_av
+   ```
+
+3. Instalá las dependencias:
+
+   ```bash
+   npm install
+   ```
+
+## Uso
+
+Para correr el proyecto en modo de desarrollo, ejecutá:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+El proyecto estará disponible en `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Funcionalidades
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Gestión de Notas**: Creá, editá y eliminá notas fácilmente.
+- **Recordatorios**: Configurá recordatorios para tus notas importantes.
+- **Calendarización**: Visualizá tus notas en un calendario para una mejor organización.
 
-## Learn More
+## Contribución
 
-To learn more about Next.js, take a look at the following resources:
+Si querés contribuir a este proyecto, por favor seguí estos pasos:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Hacé un fork del repositorio.
+2. Creá una nueva rama (`git checkout -b feature/nueva-feature`).
+3. Hacé tus cambios y commitealos (`git commit -m 'Agregué una nueva feature'`).
+4. Pusheá a la rama (`git push origin feature/nueva-feature`).
+5. Abrí un Pull Request.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Licencia
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Este proyecto está bajo la licencia MIT. Para más detalles, consultá el archivo [LICENSE](LICENSE).
