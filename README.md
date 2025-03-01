@@ -11,7 +11,7 @@ Para instalar y configurar el proyecto, seguí estos pasos:
 1. Cloná el repositorio:
 
    ```bash
-   git clone https://github.com/tu-usuario/uspg_av.git
+   git clone https://github.com/fleonel/uspg_av.git
    ```
 
 2. Navegá al directorio del proyecto:
@@ -40,16 +40,6 @@ El proyecto estará disponible en `http://localhost:3000`.
 - **Gestión de Notas**: Creá, editá y eliminá notas fácilmente.
 - **Recordatorios**: Configurá recordatorios para tus notas importantes.
 - **Calendarización**: Visualizá tus notas en un calendario para una mejor organización.
-
-## Contribución
-
-Si querés contribuir a este proyecto, por favor seguí estos pasos:
-
-1. Hacé un fork del repositorio.
-2. Creá una nueva rama (`git checkout -b feature/nueva-feature`).
-3. Hacé tus cambios y commitealos (`git commit -m 'Agregué una nueva feature'`).
-4. Pusheá a la rama (`git push origin feature/nueva-feature`).
-5. Abrí un Pull Request.
 
 ## Licencia
 
