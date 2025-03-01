@@ -2,7 +2,36 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+<<<<<<< Updated upstream
 First, run the development server:
+=======
+USPG_AV es un proyecto universitario desarrollado con Next.js y TypeScript. Este sistema permite gestionar notas, recordatorios y calendarizaciones de las notas. Es una herramienta ideal para estudiantes y profesores que buscan organizar su información académica de manera eficiente.
+
+## Instalación
+
+Para instalar y configurar el proyecto, seguí estos pasos:
+
+1. Cloná el repositorio:
+
+   ```bash
+   git clone https://github.com/tu-usuario/uspg_av.git
+   ```
+
+2. Navegá al directorio del proyecto:
+
+   ```bash cd uspg_av
+   ```
+
+3. Instalá las dependencias:
+
+   ```bash
+   npm install
+   ```
+
+## Uso
+
+Para correr el proyecto en modo de desarrollo, ejecutá:
+>>>>>>> Stashed changes
 
 ```bash
 npm run dev
