@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { db } from "@/config/firebase";
 import { collection, getDocs } from "firebase/firestore";
@@ -31,6 +31,7 @@ export default function Home() {
       <ul>
         {users.map((user) => (
           <li key={user.id}>
+            <strong>ID:</strong> {user.id} <br />
             <strong>Nombre:</strong> {user.name} <br />
             <strong>Edad:</strong> {user.edad} <br />
             <strong>Carrera:</strong> {user.carrera}
