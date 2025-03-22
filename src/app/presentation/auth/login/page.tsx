@@ -9,15 +9,15 @@ export const LoginScreen = () => {
       <div className="w-1/2 bg-gray-50 flex items-center justify-center">
         {/* Aquí va tu imagen animada 3D */}
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Bienvenido a Woodmiles</h1>
-          <p className="text-gray-500">Tu sistema de puntos y recompensas ✨</p>
+          <h1 className="text-2xl font-bold mb-4">Bienvenido a Uspg Virtual Asistance</h1>
+          <p className="text-gray-500">Un sistema más de notas y notificaciones</p>
         </div>
       </div>
 
       {/* Lado Derecho (Formulario) */}
       <div className="w-1/2 flex items-center justify-center bg-white">
         <div className="w-full max-w-md px-8">
-          <h2 className="text-2xl font-bold mb-6">Iniciá sesión 🚀</h2>
+          <h2 className="text-2xl font-bold mb-6">Iniciá sesión</h2>
 
           <form className="space-y-4">
             <div>

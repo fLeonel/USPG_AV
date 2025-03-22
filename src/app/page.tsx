@@ -7,7 +7,7 @@ import { LoginScreen } from "@/presentation/auth/login/page";
 
 export default function Page() {
   const router = useRouter();
-  const user = null; // aquí meterías tu estado global de sesión
+  const user = null;
 
   useEffect(() => {
     if (user) {
