@@ -1,40 +1,36 @@
 'use client';
 
-import { db } from "@/config/firebase";
-import { collection, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import { FirebaseUserRepository } from '@/app/core/infra/repositories/firebaseUserRepository';
+import { GetUsers } from '@/app/core/usecases/getUsers';
+import { User } from '@/app/domain/entities/user';
 
-export default function Home() {
-  const [users, setUsers] = useState<any[]>([]);
+
+export default function LoginPage() {
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "users"));
-        const fetchedUsers = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setUsers(fetchedUsers);
-        console.log("Usuarios obtenidos:", fetchedUsers);
-      } catch (error) {
-        console.error("Error obteniendo usuarios:", error);
-      }
+    const loadUsers = async () => {
+      const repo = new FirebaseUserRepository();
+      const getUsersUserCase = new GetUsers(repo);
+      const data = await getUsersUserCase.execute();
+      setUsers(data);
     };
-
-    fetchUsers();
+    loadUsers();
   }, []);
 
   return (
     <div>
-      <h1>Lista de Usuarios</h1>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            <strong>ID:</strong> {user.id} <br />
-            <strong>Nombre:</strong> {user.name} <br />
-            <strong>Edad:</strong> {user.edad} <br />
-            <strong>Carrera:</strong> {user.carrera}
+      <h1 className="text-3xl">Usuarios</h1>
+      <ul className="list-disc list-inside">
+        {users.map(user => (
+          <li key={user.id} className="border p-2 rounded">
+            <p><strong>Nombre:</strong> {user.name}</p>
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Edad:</strong> {user.edad}</p>
+            <p><strong>Carrera:</strong> {user.carrera}</p>
+            <p><strong>User_pic:</strong> {user.user_pic}</p>
+            <p><strong>CreateAt:</strong> {user.createAt.toLocaleDateString()}</p>
           </li>
         ))}
       </ul>

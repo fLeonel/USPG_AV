@@ -28,6 +28,9 @@
       ],
       "@/config/*": [
         "./src/app/infra/firebase/*"
+      ],
+      "@/styles/*": [
+        "./src/app/styles/*"
       ]
     }
   },
