@@ -1,39 +1,19 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { FirebaseUserRepository } from '@/app/core/infra/repositories/firebaseUserRepository';
-import { GetUsers } from '@/app/core/usecases/getUsers';
-import { User } from '@/app/domain/entities/user';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { LoginScreen } from "@/presentation/auth/login/page";
+// import { useAuthStore } from '@/core/state/auth' ← si usás Zustand
 
-
-export default function LoginPage() {
-  const [users, setUsers] = useState<User[]>([]);
+export default function Page() {
+  const router = useRouter();
+  const user = null; // aquí meterías tu estado global de sesión
 
   useEffect(() => {
-    const loadUsers = async () => {
-      const repo = new FirebaseUserRepository();
-      const getUsersUserCase = new GetUsers(repo);
-      const data = await getUsersUserCase.execute();
-      setUsers(data);
-    };
-    loadUsers();
-  }, []);
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [router, user]);
 
-  return (
-    <div>
-      <h1 className="text-3xl">Usuarios</h1>
-      <ul className="list-disc list-inside">
-        {users.map(user => (
-          <li key={user.id} className="border p-2 rounded">
-            <p><strong>Nombre:</strong> {user.name}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Edad:</strong> {user.edad}</p>
-            <p><strong>Carrera:</strong> {user.carrera}</p>
-            <p><strong>User_pic:</strong> {user.user_pic}</p>
-            <p><strong>CreateAt:</strong> {user.createAt.toLocaleDateString()}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <LoginScreen />;
 }

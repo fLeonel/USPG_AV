@@ -1,0 +1,34 @@
+"use client";
+
+import { FirebaseUserRepository } from "@/app/core/infra/repositories/firebaseUserRepository";
+import { SignInWithGoogle } from "@/app/core/usecases/signInWithGoogle";
+import { useState } from "react";
+
+export const GoogleLoginButton = () => {
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    setLoading(true);
+    try {
+      const repo = new FirebaseUserRepository();
+      const signIn = new SignInWithGoogle(repo);
+      const user = await signIn.execute();
+      console.log("Usuario autenticado:", user);
+      // Aquí podés guardar el user en Zustand o redirigir, si querés
+    } catch (err) {
+      console.error("Error al iniciar sesión con Google:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleLogin}
+      disabled={loading}
+      className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+    >
+      {loading ? "Cargando..." : "Iniciar sesión con Google"}
+    </button>
+  );
+};
