@@ -4,6 +4,7 @@ import { FirebaseUserRepository } from "@/app/core/infra/repositories/firebaseUs
 import { SignInWithGoogle } from "@/app/core/usecases/signInWithGoogle";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Pointer } from "lucide-react";
 
 export const GoogleLoginButton = () => {
   const [loading, setLoading] = useState(false);
@@ -29,6 +30,7 @@ export const GoogleLoginButton = () => {
       onClick={handleLogin}
       disabled={loading}
       className="bg-red-500 hover:bg-red-600 duration-500 text-white font-bold py-2 px-4 rounded"
+      style={{ cursor: "pointer" }}
     >
       {loading ? "Conectando..." : "Iniciar sesión con Google"}
     </button>
