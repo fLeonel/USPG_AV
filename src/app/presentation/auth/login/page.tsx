@@ -1,74 +1,78 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { GoogleLoginButton } from "@/presentation/auth/login/components/GoogleButton";
+import { LoginCarousel } from "./components/LoginCarousel";
 
 export const LoginScreen = () => {
   return (
-    <div className="min-h-screen flex">
-      {/* Lado Izquierdo (Imagen o ilustración) */}
-      <div className="w-1/2 bg-gray-50 flex items-center justify-center">
-        {/* Aquí va tu imagen animada 3D */}
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Bienvenido a Uspg Virtual Asistance</h1>
-          <p className="text-gray-500">Un sistema más de notas y notificaciones</p>
+    <div className="min-h-screen flex transition-colors duration-300">
+      {/* Lado Izquierdo (Carrusel) */}
+      <div className="hidden md:flex w-1/2 items-center justify-center">
+        <div className="text-center p-8 flex flex-col items-center">
+          <LoginCarousel />
         </div>
       </div>
 
       {/* Lado Derecho (Formulario) */}
-      <div className="w-1/2 flex items-center justify-center bg-white">
-        <div className="w-full max-w-md px-8">
-          <h2 className="text-2xl font-bold mb-6">Iniciá sesión</h2>
-
-          <form className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Email</label>
-              <input
-                type="email"
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500"
-              />
+      <div className="w-full md:w-1/2 flex items-center justify-center bg-background text-foreground">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: "easeOut" }}
+          className="w-full max-w-md p-4"
+        >
+          <form className="flex flex-col gap-4 bg-white p-8 w-full rounded-2xl shadow-md text-gray-800">
+            <h2 className="text-2xl font-bold text-center mb-2">Iniciá sesión</h2>
+            <div className="flex flex-col">
+              <label className="text-sm font-semibold mb-1 text-gray-800">Email</label>
+              <div className="flex items-center h-12 px-3 border border-gray-200 rounded-xl focus-within:border-blue-500 transition">
+                <input
+                  type="email"
+                  placeholder="Ejemplo: dr04860@gmail.com"
+                  className="ml-2 w-full h-full bg-transparent border-none outline-none placeholder:text-gray-400"
+                />
+              </div>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Contraseña
-              </label>
-              <input
-                type="password"
-                className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:border-blue-500"
-              />
+            <div className="flex flex-col">
+              <label className="text-sm font-semibold mb-1 text-gray-800">Contraseña</label>
+              <div className="flex items-center h-12 px-3 border border-gray-200 rounded-xl focus-within:border-blue-500 transition">
+                <input
+                  type="password"
+                  placeholder="Ingresa tu contraseña"
+                  className="ml-2 w-full h-full bg-transparent border-none outline-none placeholder:text-gray-400"
+                />
+              </div>
             </div>
-
-            <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center justify-between text-sm text-gray-600 mt-2">
               <label className="flex items-center gap-2">
-                <input type="checkbox" className="form-checkbox" />
+                <input type="checkbox" className="form-checkbox text-blue-500" />
                 Recuérdame
               </label>
-              <a href="#" className="text-blue-500 hover:underline">
+              <a href="#" className="text-blue-500 font-medium hover:underline">
                 ¿Olvidaste tu contraseña?
               </a>
             </div>
-
             <button
               type="submit"
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white py-2 px-4 rounded transition"
+              className="mt-6 bg-gray-900 hover:bg-gray-800 text-white font-medium text-sm rounded-xl h-12 w-full transition-colors"
             >
               Iniciar sesión
             </button>
-          </form>
-
-          <div className="my-6 text-center text-sm text-gray-500">o</div>
-
-          <div className="flex justify-center">
+            <div className="flex items-center my-4">
+              <div className="flex-grow h-px bg-gray-200" />
+              <span className="px-3 text-sm text-gray-400">o</span>
+              <div className="flex-grow h-px bg-gray-200" />
+            </div>
             <GoogleLoginButton />
-          </div>
-
-          <p className="text-sm text-center mt-6 text-gray-600">
-            ¿No tenés cuenta?{" "}
-            <a href="#" className="text-blue-500 hover:underline">
-              Creá una aquí
-            </a>
-          </p>
-        </div>
+            <p className="text-center text-sm text-gray-700 mt-4">
+              ¿No tenés cuenta?
+              <a href="#" className="text-blue-500 font-medium ml-1 hover:underline">
+                Creá una aquí
+              </a>
+            </p>
+          </form>
+        </motion.div>
       </div>
     </div>
   );
