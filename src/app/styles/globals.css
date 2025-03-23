@@ -1,6 +1,6 @@
 @import "tailwindcss";
-@tailwind utilities;
 
+/* Modo claro (default) */
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -10,14 +10,15 @@
   --highlight: #99b39a;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Modo oscuro activado por clase `.dark` */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
+  font-family: system-ui, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
 }

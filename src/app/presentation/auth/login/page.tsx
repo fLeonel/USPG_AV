@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { motion } from "framer-motion";
 import { GoogleLoginButton } from "@/presentation/auth/login/components/GoogleButton";
@@ -24,6 +24,8 @@ export const LoginScreen = () => {
         >
           <form className="flex flex-col gap-4 bg-white p-8 w-full rounded-2xl shadow-md text-gray-800">
             <h2 className="text-2xl font-bold text-center mb-2">Iniciá sesión</h2>
+
+            {/* Email */}
             <div className="flex flex-col">
               <label className="text-sm font-semibold mb-1 text-gray-800">Email</label>
               <div className="flex items-center h-12 px-3 border border-gray-200 rounded-xl focus-within:border-blue-500 transition">
@@ -34,6 +36,8 @@ export const LoginScreen = () => {
                 />
               </div>
             </div>
+
+            {/* Contraseña */}
             <div className="flex flex-col">
               <label className="text-sm font-semibold mb-1 text-gray-800">Contraseña</label>
               <div className="flex items-center h-12 px-3 border border-gray-200 rounded-xl focus-within:border-blue-500 transition">
@@ -44,6 +48,8 @@ export const LoginScreen = () => {
                 />
               </div>
             </div>
+
+            {/* Recuérdame y enlace */}
             <div className="flex items-center justify-between text-sm text-gray-600 mt-2">
               <label className="flex items-center gap-2">
                 <input type="checkbox" className="form-checkbox text-blue-500" />
@@ -53,18 +59,26 @@ export const LoginScreen = () => {
                 ¿Olvidaste tu contraseña?
               </a>
             </div>
+
+            {/* Botón */}
             <button
               type="submit"
               className="mt-6 bg-gray-900 hover:bg-gray-800 text-white font-medium text-sm rounded-xl h-12 w-full transition-colors"
             >
               Iniciar sesión
             </button>
+
+            {/* Separador */}
             <div className="flex items-center my-4">
               <div className="flex-grow h-px bg-gray-200" />
               <span className="px-3 text-sm text-gray-400">o</span>
               <div className="flex-grow h-px bg-gray-200" />
             </div>
+
+            {/* Google Button */}
             <GoogleLoginButton />
+
+            {/* Registro */}
             <p className="text-center text-sm text-gray-700 mt-4">
               ¿No tenés cuenta?
               <a href="#" className="text-blue-500 font-medium ml-1 hover:underline">
