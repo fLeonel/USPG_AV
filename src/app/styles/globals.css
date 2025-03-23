@@ -1,14 +1,14 @@
-@import "tailwindcss/preflight";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Si querés añadir tus colores personalizados: */
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #2D4343;
-  --secondary: #6F8B8F;
-  --accent: #88A699;
-  --highlight: #99B39A;
+  --primary: #2d4343;
+  --secondary: #6f8b8f;
+  --accent: #88a699;
+  --highlight: #99b39a;
 }
 
 @media (prefers-color-scheme: dark) {
