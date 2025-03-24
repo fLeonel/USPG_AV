@@ -15,7 +15,7 @@ export const LoginScreen = () => {
       </div>
 
       {/* Lado Derecho (Formulario) */}
-      <div className="w-full md:w-1/2 flex items-center justify-center bg-background text-foreground">
+      <div className="w-full md:w-1/2 flex items-center justify-center bg-[#6F8B8F] text-foreground">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
