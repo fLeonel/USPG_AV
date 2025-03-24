@@ -1,42 +1,19 @@
 "use client";
 
-import { db } from "@/config/firebase";
-import { collection, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { LoginScreen } from "@/presentation/auth/login/page";
+// import { useAuthStore } from '@/core/state/auth' ← si usás Zustand
 
-export default function Home() {
-  const [users, setUsers] = useState<any[]>([]);
+export default function Page() {
+  const router = useRouter();
+  const user = null;
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "users"));
-        const fetchedUsers = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setUsers(fetchedUsers);
-        console.log("Usuarios obtenidos:", fetchedUsers);
-      } catch (error) {
-        console.error("Error obteniendo usuarios:", error);
-      }
-    };
+    if (user) {
+      router.push("/dashboard");
+    }
+  }, [router, user]);
 
-    fetchUsers();
-  }, []);
-
-  return (
-    <div>
-      <h1>Lista de Usuarios</h1>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            <strong>Nombre:</strong> {user.name} <br />
-            <strong>Edad:</strong> {user.edad} <br />
-            <strong>Carrera:</strong> {user.carrera}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return <LoginScreen />;
 }
