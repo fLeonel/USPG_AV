@@ -5,6 +5,7 @@ import { SignInWithGoogle } from "@/app/core/usecases/signInWithGoogle";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Pointer } from "lucide-react";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 export const GoogleLoginButton = () => {
   const [loading, setLoading] = useState(false);
@@ -32,7 +33,13 @@ export const GoogleLoginButton = () => {
       className="bg-red-500 hover:bg-red-600 duration-500 text-white font-bold py-2 px-4 rounded"
       style={{ cursor: "pointer" }}
     >
-      {loading ? "Conectando..." : "Iniciar sesión con Google"}
+      {loading ? (
+        "Conectando..."
+      ) : (
+        <>
+          Iniciar sesión con Google <i className="bi bi-google"></i>
+        </>
+      )}
     </button>
   );
 };

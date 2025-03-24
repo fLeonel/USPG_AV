@@ -24,7 +24,7 @@ export const LoginScreen = () => {
         >
           <form className="flex flex-col gap-4 bg-white p-8 w-full rounded-2xl shadow-md text-gray-800">
             <h2 className="text-2xl font-bold text-center mb-2">
-              Iniciá sesión
+              Inicia sesión
             </h2>
 
             {/* Email */}
@@ -95,7 +95,7 @@ export const LoginScreen = () => {
                 href="#"
                 className="text-blue-500 font-medium ml-1 hover:underline"
               >
-                Creá una aquí
+                Crea una aquí
               </a>
             </p>
           </form>
