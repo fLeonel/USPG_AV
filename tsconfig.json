@@ -22,7 +22,7 @@
     "paths": {
       "@/*": ["src/app/*"],
       "@/app/*": ["src/app/*"],
-      "@presentation/*": ["src/app/presentation/*"],
+      "@/presentation/*": ["src/app/presentation/*"],
       "@/config/*": ["src/app/infra/firebase/*"],
       "@/styles/*": ["src/app/styles/*"]
     }
