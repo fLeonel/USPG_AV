@@ -91,4 +91,4 @@ export const LoginScreen = () => {
     </div>
   );
 };
-export default LoginScreen();
+export default LoginScreen;

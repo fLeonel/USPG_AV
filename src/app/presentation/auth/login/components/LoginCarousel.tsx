@@ -82,4 +82,4 @@ export const LoginCarousel = () => {
   );
 };
 
-export default LoginCarousel();
+export default LoginCarousel;
