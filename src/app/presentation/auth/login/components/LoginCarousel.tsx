@@ -33,7 +33,7 @@ export const LoginCarousel = () => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [slides.length]);
 
   const slide = slides[current];
 
@@ -51,7 +51,7 @@ export const LoginCarousel = () => {
           >
             <Image
               src={slide.image}
-              alt={slide.title}
+              alt={`${slide.title} - imagen de carousel`}
               fill
               className="object-contain"
             />
@@ -84,3 +84,5 @@ export const LoginCarousel = () => {
     </div>
   );
 };
+
+export default LoginCarousel;

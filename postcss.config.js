@@ -1,7 +1,9 @@
-//Cambie el codigo de este archivo:
-module.exports = {
+/** @type {import('postcss').Config} */
+const config = {
   plugins: {
     "@tailwindcss/postcss": {},
     autoprefixer: {},
   },
 };
+
+export default config;
