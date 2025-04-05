@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
@@ -9,17 +9,20 @@ export const LoginCarousel = () => {
     {
       image: "/img/Img1.webp",
       title: "Bienvenido a USPG Virtual Assistance",
-      description: "Un sistema académico moderno para gestionar notas, eventos y notificaciones.",
+      description:
+        "Un sistema académico moderno para gestionar notas, eventos y notificaciones.",
     },
     {
       image: "/img/login_intro.webp",
       title: "Organiza tus actividades",
-      description: "Visualizá tu calendario, recordatorios y eventos de forma intuitiva.",
+      description:
+        "Visualizá tu calendario, recordatorios y eventos de forma intuitiva.",
     },
     {
       image: "/img/3DLogin4.jpeg",
       title: "Gestiona tus notas",
-      description: "Consultá tu rendimiento académico con reportes claros y detallados.",
+      description:
+        "Consultá tu rendimiento académico con reportes claros y detallados.",
     },
   ];
 
@@ -82,4 +85,4 @@ export const LoginCarousel = () => {
   );
 };
 
-export default LoginCarousel();
+export default LoginCarousel;
