@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import LoginScreen from '@/presentation/auth/login/components/LoginScreen';
 
