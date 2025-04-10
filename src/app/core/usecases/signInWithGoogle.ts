@@ -1,4 +1,4 @@
-import { UserRepository } from "@/app/domain/repositories/userRepository";
+import { UserRepository } from "@/domain/repositories/userRepository";
 
 export class SignInWithGoogle {
   constructor(private userRepo: UserRepository) {}
