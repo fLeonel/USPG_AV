@@ -17,9 +17,9 @@ export async function POST(req: Request) {
     const token = sign({ id, email, name }, SECRET, { expiresIn: "7d" });
 
     return NextResponse.json({ token }, { status: 200 });
-  } catch (err: uknownknown) {
+  } catch (err: unknown) {
     const error = err as Error;
-    conslole.error("Error generating token:", error);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error("Error generating token:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
