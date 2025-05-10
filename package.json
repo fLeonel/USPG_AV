@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/oxide": "^4.1.6",
     "bootstrap-icons": "^1.11.3",
     "firebase": "^11.4.0",
     "framer-motion": "^12.5.0",
