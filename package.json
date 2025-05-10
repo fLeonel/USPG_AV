@@ -20,8 +20,9 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
+    "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.26.0",
+    "@next/eslint-plugin-next": "^15.3.2",
     "@tailwindcss/postcss": "^4.0.15",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20",
@@ -30,6 +31,7 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9.26.0",
     "eslint-config-next": "15.1.6",
+    "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^16.0.0",
     "postcss": "^8.5.3",
