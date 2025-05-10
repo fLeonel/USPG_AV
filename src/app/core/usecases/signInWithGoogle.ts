@@ -1,5 +1,4 @@
 import { UserRepository } from "@/domain/repositories/userRepository";
-import { signInWithGoogleAndGenerateToken } from "@/core/usecases/signInWithGoogleAndGenerateToken";
 
 export class SignInWithGoogle {
   constructor(private userRepo: UserRepository) {}
@@ -11,7 +10,19 @@ export class SignInWithGoogle {
       throw new Error("No se pudo autenticar con Google");
     }
 
-    const token = await signInWithGoogleAndGenerateToken(user);
+    const response = await fetch("../../api/auth/generate-token/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error al generar token");
+    }
+
+    const { token } = await response.json();
 
     return { user, token };
   }
