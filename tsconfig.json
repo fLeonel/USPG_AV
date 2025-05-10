@@ -26,6 +26,7 @@
       "@/usecases/*": ["src/app/core/usecases/*"],
       "@/infra/*": ["src/app/core/infra/*"],
       "@/presentation/*": ["src/app/presentation/*"],
+      "@/shared/*": ["src/app/shared/*"],
       "@/styles/*": ["src/app/presentation/styles/*"]
     }
   },

@@ -10,7 +10,7 @@ export class SignInWithGoogle {
       throw new Error("No se pudo autenticar con Google");
     }
 
-    const response = await fetch("/api/auth/token", {
+    const response = await fetch("../../api/auth/generate-token/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
