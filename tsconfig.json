@@ -21,10 +21,13 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/app/*"],
-      "@/app/*": ["src/app/*"],
+      "@/core/*": ["src/app/core/*"],
+      "@/domain/*": ["src/app/core/domain/*"],
+      "@/usecases/*": ["src/app/core/usecases/*"],
+      "@/infra/*": ["src/app/core/infra/*"],
       "@/presentation/*": ["src/app/presentation/*"],
-      "@/config/*": ["src/app/infra/firebase/*"],
-      "@/styles/*": ["src/app/styles/*"]
+      "@/shared/*": ["src/app/shared/*"],
+      "@/styles/*": ["src/app/presentation/styles/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

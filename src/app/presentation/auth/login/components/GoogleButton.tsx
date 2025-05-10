@@ -1,10 +1,9 @@
 "use client";
 
-import { FirebaseUserRepository } from "@/app/core/infra/repositories/firebaseUserRepository";
-import { SignInWithGoogle } from "@/app/core/usecases/signInWithGoogle";
+import { FirebaseUserRepository } from "@/core/infra/repositories/firebaseUserRepository";
+import { SignInWithGoogle } from "@/core/usecases/signInWithGoogle";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Pointer } from "lucide-react";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 export const GoogleLoginButton = () => {

@@ -1,5 +1,5 @@
-import { User } from "@/app/domain/entities/user";
-import { UserRepository } from "@/app/domain/repositories/userRepository";
+import { User } from "@/domain/entities/user";
+import { UserRepository } from "@/domain/repositories/userRepository";
 import {
   collection,
   getDocs,

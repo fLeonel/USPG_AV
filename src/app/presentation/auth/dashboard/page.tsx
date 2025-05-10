@@ -1,50 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { FirebaseUserRepository } from "@/app/core/infra/repositories/firebaseUserRepository";
-import { GetUsers } from "@/app/core/usecases/getUsers";
-import { User } from "@/app/domain/entities/user";
+import { useLoggedUserData } from "@/shared/hooks/useLoggedUserData";
 
-export default function LoginPage() {
-  const [users, setUsers] = useState<User[]>([]);
+export default function WelcomePage() {
+  const user = useLoggedUserData();
 
-  useEffect(() => {
-    const loadUsers = async () => {
-      const repo = new FirebaseUserRepository();
-      const getUsersUserCase = new GetUsers(repo);
-      const data = await getUsersUserCase.execute();
-      setUsers(data);
-    };
-    loadUsers();
-  }, []);
+  if (!user)
+    return <p className="text-center mt-20 text-gray-500">Cargando...</p>;
 
   return (
-    <div>
-      <h1 className="text-3xl">Usuarios</h1>
-      <ul className="list-disc list-inside">
-        {users.map((user) => (
-          <li key={user.id} className="border p-2 rounded">
-            <p>
-              <strong>Nombre:</strong> {user.name}
-            </p>
-            <p>
-              <strong>Email:</strong> {user.email}
-            </p>
-            <p>
-              <strong>Edad:</strong> {user.edad}
-            </p>
-            <p>
-              <strong>Carrera:</strong> {user.carrera}
-            </p>
-            <p>
-              <strong>User_pic:</strong> {user.user_pic}
-            </p>
-            <p>
-              <strong>CreateAt:</strong> {user.createAt.toLocaleDateString()}
-            </p>
-          </li>
-        ))}
-      </ul>
+    <div className="flex flex-col items-center justify-center h-screen bg-[#ffffff] text-[#171717]">
+      <div className="bg-[#88a699] p-8 rounded-xl shadow-lg text-center max-w-md w-full">
+        <h1 className="text-3xl font-bold text-[#2d4343] mb-4">
+          ¡Hola, {user.name} 👋!
+        </h1>
+        <p className="text-[#171717] text-lg">
+          Pronto verás algo hermoso aquí...{" "}
+          <span className="italic">espéralo 😉</span>
+        </p>
+        <div className="mt-4 text-sm text-[#6f8b8f]">
+          <p>Correo: {user.email}</p>
+          <p>Carrera: {user.carrera}</p>
+        </div>
+      </div>
     </div>
   );
 }
