@@ -91,7 +91,7 @@ export const LoginScreen = () => {
             <p className="text-center text-sm text-gray-700 mt-4">
               ¿No tenés cuenta?
               <a
-                href="#"
+                href="/presentation/auth/register"
                 className="text-blue-500 font-medium ml-1 hover:underline"
               >
                 Creá una aquí
