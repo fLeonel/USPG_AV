@@ -28,14 +28,12 @@ const Sidebar: React.FC = () => {
       <div className="mt-10 text-center">
 
         {/* Recupera la foto del usuario registrado */}
-        {user?.user_pic && user.user_pic.trim() !== "" ? (
+        {user?.user_pic &&  (
           <img
             src={user.user_pic}
             alt="Foto de perfil"
             className="w-20 h-20 mx-auto mb-2 rounded-full object-cover"
           />
-        ) : (
-          <FiUser size={36} className="mx-auto mb-2 text-gray-400" />
         )}
 
         {/* Recupera el nombre del usuario registrado */}
