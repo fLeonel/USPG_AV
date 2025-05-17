@@ -11,6 +11,8 @@
   "dependencies": {
     "@tailwindcss/oxide": "^4.1.6",
     "bootstrap-icons": "^1.11.3",
+    "cookie": "^1.0.2",
+    "cookies": "^0.9.1",
     "firebase": "^11.4.0",
     "framer-motion": "^12.5.0",
     "jsonwebtoken": "^9.0.2",

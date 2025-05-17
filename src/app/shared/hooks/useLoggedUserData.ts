@@ -1,30 +1,28 @@
 import { useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "@/core/infra/firebase/firebase";
 import { User } from "@/domain/entities/user";
 
 export function useLoggedUserData() {
   const [userData, setUserData] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUser = async () => {
-      const auth = getAuth();
-      const currentUser = auth.currentUser;
+      try {
+        const res = await fetch("/api/auth/me");
+        if (!res.ok) throw new Error();
 
-      if (!currentUser) return;
-
-      const docRef = doc(db, "users", currentUser.uid);
-
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        setUserData(docSnap.data() as User);
+        const data = await res.json();
+        setUserData(data.user);
+      } catch (error) {
+        console.log(error);
+        setUserData(null);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUser();
   }, []);
 
-  return userData;
+  return { user: userData, loading };
 }
