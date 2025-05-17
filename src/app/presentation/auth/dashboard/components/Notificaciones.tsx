@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Bell } from "lucide-react";
 
-export default function NotificationBell() {
+export default function Notificacion() {
   const [show, setShow] = useState(false);
 
   return (
