@@ -52,9 +52,9 @@ const Sidebar: React.FC = () => {
         <Link href="#" className="flex items-center gap-2 hover:text-gray-300">
           <FiList /> Tareas
         </Link>
-        {/* Pendiente de creacion de la pagina tareas y enlazarY corregir el nombre para enlazar*/}
+        {/* Creacion de seccion faltante de calendario, y pendiente a creacion de la pagina y de enlazarlo y la correcion de nombre para enlazar*/}
         <Link href="#" className="flex items-center gap-2 hover:text-gray-300">
-          <FiCalendar /> Tareas
+          <FiCalendar /> Calendario
         </Link>
         {/* Pendiente de creacion de la pagina notas y enlazar. Y corregir el nombre para enlazar*/}
         <Link href="#" className="flex items-center gap-2 hover:text-gray-300">
