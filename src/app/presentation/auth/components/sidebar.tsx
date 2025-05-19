@@ -2,7 +2,7 @@
 
 import { useLoggedUserData } from "@/shared/hooks/useLoggedUserData";
 import React from "react";
-import { FiCalendar, FiList, FiFileText, FiLogOut, FiUser, FiSettings } from "react-icons/fi";
+import { FiHome, FiCalendar, FiList, FiFileText, FiLogOut, FiUser, FiSettings } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -46,11 +46,15 @@ const Sidebar: React.FC = () => {
       {/* Navegación */}
       <nav className="mt-10 flex flex-col gap-4">
         <Link href="/presentation/auth/dashboard" className="flex items-center gap-2 hover:text-gray-300">
-          <FiCalendar /> Mi día
+          <FiHome /> Mi día
         </Link>
         {/* Pendiente de creacion de la pagina tareas y enlazarY corregir el nombre para enlazar*/}
         <Link href="#" className="flex items-center gap-2 hover:text-gray-300">
           <FiList /> Tareas
+        </Link>
+        {/* Pendiente de creacion de la pagina tareas y enlazarY corregir el nombre para enlazar*/}
+        <Link href="#" className="flex items-center gap-2 hover:text-gray-300">
+          <FiCalendar /> Tareas
         </Link>
         {/* Pendiente de creacion de la pagina notas y enlazar. Y corregir el nombre para enlazar*/}
         <Link href="#" className="flex items-center gap-2 hover:text-gray-300">
