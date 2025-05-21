@@ -3,7 +3,7 @@
 import { useLoggedUserData } from "@/shared/hooks/useLoggedUserData";
 import SidebarLayout from "../components/sidebarLayout";
 import Header from "./components/Header";
-import ConteoTareas from "./components/ConteoTareas";
+import Planificacion from "./components/Planificacion";
 
 export default function WelcomePage() {
   const { user, loading } = useLoggedUserData();
@@ -21,8 +21,8 @@ export default function WelcomePage() {
   return (
     <SidebarLayout>
       <Header />
-      <div className="flex flex-col items-center bg-white text-[#171717] min-h-screen pt-20">
-        <ConteoTareas />
+      <div className="flex flex-col items-center bg-gray-100 rounded-2xl text-[#171717] min-h-screen pt-14">
+        <Planificacion />
       </div>
     </SidebarLayout>
   );
