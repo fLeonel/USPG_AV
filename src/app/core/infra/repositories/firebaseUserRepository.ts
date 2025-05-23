@@ -53,4 +53,16 @@ export class FirebaseUserRepository implements UserRepository {
 
     return user;
   }
+
+  async create(user: User): Promise<void> {
+    const userRef = doc(db, "users", user.id);
+    await setDoc(userRef, {
+      carrera: user.carrera,
+      createAt: serverTimestamp(),
+      edad: user.edad,
+      name: user.name,
+      email: user.email,
+      user_pic: user.user_pic,
+    });
+  }
 }
