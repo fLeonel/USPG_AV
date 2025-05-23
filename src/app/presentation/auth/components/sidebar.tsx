@@ -76,7 +76,7 @@ const Sidebar: React.FC = () => {
           <FiFileText /> <span>Notas</span>
         </Link>
         <Link
-          href="#"
+          href="/presentation/calendario"
           className="flex items-center gap-3 px-2 py-2 rounded-md hover:bg-[#3b5a5a] transition-colors"
         >
           <FiCalendar /> <span>Calendario</span>
