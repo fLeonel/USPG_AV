@@ -6,8 +6,8 @@ export class User {
     public readonly edad: number,
     public readonly name: string,
     public readonly email: string,
-    public readonly user_pic: string
-  ) { }
+    public readonly user_pic: string,
+  ) {}
 
   static fromJson(id: string, json: Record<string, unknown>): User {
     return new User(
@@ -17,7 +17,7 @@ export class User {
       json["edad"] as number,
       json["name"] as string,
       json["email"] as string,
-      json["user_pic"] as string
+      json["user_pic"] as string,
     );
   }
 }

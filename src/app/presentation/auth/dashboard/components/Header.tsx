@@ -33,11 +33,13 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="flex justify-between items-start px-5 pt-4">
+    <div className="flex justify-between items-start px-5 pt-6 pb-3">
       <div className="text-left text-[#171717]">
-        <h2 className="text-2xl font-bold">Mi día</h2>
-        <p className="text-sm">{fecha}</p>
-        <p className="text-sm">{hora}</p>
+        <h2 className="text-3xl font-bold tracking-tight mb-1">
+          📋 Mi día
+        </h2>
+        <p className="text-md text-gray-500 font-medium capitalize">{fecha}</p>
+        <p className="text-sm text-gray-500">{hora}</p>
       </div>
       <Notificacion />
     </div>

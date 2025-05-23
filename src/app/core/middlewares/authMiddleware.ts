@@ -1,5 +1,6 @@
 import { verify } from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse, NextApiHandler } from "next";
+import { parse } from "cookie";
 
 interface JwtPayload {
   id: string;
@@ -18,13 +19,14 @@ if (!SECRET_KEY) {
 
 export function authMiddleware(handler: NextApiHandler) {
   return async (req: NextApiRequest, res: NextApiResponse) => {
-    const authorizationHeader = req.headers.authorization;
+    // 👇 Leer cookies desde el header
+    const cookies = req.headers.cookie ? parse(req.headers.cookie) : {};
 
-    if (!authorizationHeader) {
+    const token = cookies.token;
+
+    if (!token) {
       return res.status(401).json({ message: "No autorizado: Falta token" });
     }
-
-    const token = authorizationHeader.split(" ")[1];
 
     try {
       const decoded = verify(token, SECRET_KEY) as JwtPayload;
