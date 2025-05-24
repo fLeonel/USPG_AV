@@ -1,7 +1,14 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { SignUpWithEmail } from "@/core/usecases/signInWithEmail";
+import { authRepository } from "@/core/infra/repositories/firebaseAuthRepository";
 
 export const FormRegister = () => {
+  const router = useRouter();
+
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
   const [edad, setEdad] = useState<number | "">("");
@@ -10,7 +17,7 @@ export const FormRegister = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newErrors: { [key: string]: string } = {};
 
@@ -26,8 +33,23 @@ export const FormRegister = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      //Aqui se enviará la información al backend
-      console.log({ nombre, edad, carrera, correo, password });
+      try {
+        const signUp = new SignUpWithEmail(authRepository);
+
+        await signUp.call({
+          email: correo,
+          password,
+          name: nombre,
+          edad: edad === "" ? 0 : edad,
+          carrera: carrera || "Sin carrera",
+          user_pic: "https://default-pic.com/avatar.png",
+        });
+
+        router.push("/presentation/auth/login");
+      } catch (err) {
+        console.error("Error al crear usuario:", err);
+        alert("Ocurrió un error al registrar. Intenta de nuevo.");
+      }
     }
   };
 
@@ -169,4 +191,5 @@ export const FormRegister = () => {
     </div>
   );
 };
+
 export default FormRegister;
