@@ -1,100 +1,24 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { PencilIcon, TrashIcon, PlusIcon } from "lucide-react";
-import {
-  getNotesByUser,
-  deleteNote,
-  createNote,
-} from "@/core/services/noteService";
-import { getAuth } from "firebase/auth";
-import { Note as DomainNote } from "@/core/domain/entities/notes";
-import { v4 as uuidv4 } from "uuid";
+import { Note } from "@/core/domain/entities/notes";
 
 type SortOrder = "recent" | "oldest";
 
-interface NoteUI {
-  id: string;
-  title: string;
-  summary: string;
-  createdAt: Date;
-}
-
 interface NoteListProps {
-  onNoteSelect: (note: DomainNote) => void;
+  notes: Note[];
+  onNoteSelect: (note: Note) => void;
+  onCreateNote: () => void;
 }
 
-export default function NoteList({ onNoteSelect }: NoteListProps) {
+export default function NoteList({
+  notes,
+  onNoteSelect,
+  onCreateNote,
+}: NoteListProps) {
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState<SortOrder>("recent");
-  const [notes, setNotes] = useState<NoteUI[]>([]);
-  const [domainNotes, setDomainNotes] = useState<DomainNote[]>([]);
-
-  useEffect(() => {
-    const fetchNotes = async () => {
-      const auth = getAuth();
-      const userId = auth.currentUser?.uid || "user_test";
-
-      try {
-        const domainData: DomainNote[] = await getNotesByUser(userId);
-        setDomainNotes(domainData);
-
-        const uiData = domainData.map((note) => ({
-          id: note.id,
-          title: note.title,
-          summary: note.content.slice(0, 100),
-          createdAt: note.createdAt,
-        }));
-
-        setNotes(uiData);
-      } catch (error) {
-        console.error("Error al cargar notas:", error);
-      }
-    };
-
-    fetchNotes();
-  }, []);
-
-  const handleCreateEmptyNote = async () => {
-    const auth = getAuth();
-    const userId = auth.currentUser?.uid;
-    if (!userId) return;
-
-    const now = new Date();
-    const newNote = new DomainNote(
-      uuidv4(),
-      userId,
-      "",
-      "",
-      false,
-      [],
-      now,
-      now,
-    );
-
-    await createNote(newNote);
-
-    const uiNote: NoteUI = {
-      id: newNote.id,
-      title: "",
-      summary: "",
-      createdAt: now,
-    };
-
-    setNotes((prev) => [...prev, uiNote]);
-    setDomainNotes((prev) => [...prev, newNote]);
-    onNoteSelect(newNote); // 🔥 seleccionarla desde el padre
-  };
-
-  const handleDelete = async (id: string) => {
-    try {
-      await deleteNote(id);
-      setNotes((prev) => prev.filter((note) => note.id !== id));
-      setDomainNotes((prev) => prev.filter((note) => note.id !== id));
-    } catch (error) {
-      console.error("Error al eliminar nota:", error);
-    }
-  };
 
   const filteredNotes = notes
     .filter((note) => note.title.toLowerCase().includes(search.toLowerCase()))
@@ -109,7 +33,7 @@ export default function NoteList({ onNoteSelect }: NoteListProps) {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">Notas</h2>
         <button
-          onClick={handleCreateEmptyNote}
+          onClick={onCreateNote}
           className="flex items-center justify-center p-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 transition"
           title="Crear nueva nota"
         >
@@ -147,29 +71,24 @@ export default function NoteList({ onNoteSelect }: NoteListProps) {
             className={`p-3 rounded-xl cursor-pointer transition shadow-sm ${
               index % 2 === 0 ? "bg-gray-100" : "bg-gray-50"
             } hover:bg-gray-200`}
-            onClick={() => {
-              const domain = domainNotes.find((n) => n.id === note.id);
-              if (domain) onNoteSelect(domain); // 🔥 también desde selección
-            }}
+            onClick={() => onNoteSelect(note)}
           >
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="font-semibold text-gray-800">{note.title}</h3>
+                <h3 className="font-semibold text-gray-800">
+                  {note.title || "Sin título"}
+                </h3>
                 <p className="text-sm text-gray-600">
-                  {note.summary.slice(0, 50)}...
+                  {note.content
+                    ? note.content.slice(0, 50) + "..."
+                    : "Sin contenido"}
                 </p>
               </div>
               <div className="flex gap-2 mt-1">
                 <button className="text-blue-500 hover:text-blue-700">
                   <PencilIcon size={18} />
                 </button>
-                <button
-                  className="text-red-500 hover:text-red-700"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(note.id);
-                  }}
-                >
+                <button className="text-red-500 hover:text-red-700" disabled>
                   <TrashIcon size={18} />
                 </button>
               </div>
