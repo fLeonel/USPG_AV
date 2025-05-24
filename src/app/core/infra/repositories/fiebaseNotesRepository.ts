@@ -1,7 +1,7 @@
 import { Note } from "@/core/domain/entities/notes";
 import { NoteRepository } from "@/core/domain/repositories/noteRepository";
+import { db } from "@/core/infra/firebase/firebase";
 import {
-  getFirestore,
   collection,
   doc,
   getDoc,
@@ -12,7 +12,6 @@ import {
   where,
 } from "firebase/firestore";
 
-const db = getFirestore();
 const notesCollection = collection(db, "notes");
 
 export class NoteRepositoryImpl implements NoteRepository {

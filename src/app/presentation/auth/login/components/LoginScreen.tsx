@@ -28,7 +28,33 @@ export const LoginScreen = () => {
     setError("");
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const user = userCredential.user;
+
+      const response = await fetch("/api/auth/generate-token", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          id: user.uid,
+          email: user.email,
+          name: user.displayName ?? "Usuario",
+          user_pic:
+            user.photoURL ??
+            "https://i.pinimg.com/736x/47/49/9a/47499a5cd90f926e9506b4a47435a0eb.jpg",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Fallo la generación del token.");
+      }
+
       router.push("/presentation/auth/dashboard");
     } catch (err) {
       console.error(err);
