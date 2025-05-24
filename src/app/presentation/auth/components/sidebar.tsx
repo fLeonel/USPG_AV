@@ -70,7 +70,7 @@ const Sidebar: React.FC = () => {
           <FiHome /> <span>Mi día</span>
         </Link>
         <Link
-          href="#"
+          href="/presentation/notas"
           className="flex items-center gap-3 px-2 py-2 rounded-md hover:bg-[#3b5a5a] transition-colors"
         >
           <FiFileText /> <span>Notas</span>

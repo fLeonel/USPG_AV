@@ -24,6 +24,7 @@ export default function WelcomePage() {
       <div className="flex flex-col items-center bg-gray-100 rounded-2xl text-[#171717] min-h-screen pt-14">
         <Planificacion />
       </div>
+
     </SidebarLayout>
   );
 }
