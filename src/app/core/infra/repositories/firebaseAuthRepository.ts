@@ -1,7 +1,8 @@
 import { AuthRepository } from "@/core/domain/repositories/authRepository";
 import { User } from "@/core/domain/entities/user";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { auth, db } from "@/core/infra/firebase/firebase";
 
 export class FirebaseAuthRepository implements AuthRepository {
   async registerWithEmail(
@@ -9,16 +10,13 @@ export class FirebaseAuthRepository implements AuthRepository {
     password: string,
     data: Omit<User, "id" | "createAt">,
   ): Promise<User> {
-    const auth = getAuth();
-    const db = getFirestore();
-
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     const firebaseUser = cred.user;
 
     const userData = {
       ...data,
       email: firebaseUser.email ?? "",
-      createAt: new Date(),
+      createAt: Timestamp.fromDate(new Date()),
     };
 
     const ref = doc(db, "users", firebaseUser.uid);
@@ -27,7 +25,7 @@ export class FirebaseAuthRepository implements AuthRepository {
     return new User(
       firebaseUser.uid,
       userData.carrera,
-      userData.createAt,
+      userData.createAt.toDate(),
       userData.edad,
       userData.name,
       userData.email,
@@ -35,3 +33,5 @@ export class FirebaseAuthRepository implements AuthRepository {
     );
   }
 }
+
+export const authRepository = new FirebaseAuthRepository();
