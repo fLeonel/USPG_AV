@@ -1,8 +1,9 @@
 "use client";
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import LoginScreen from "@/presentation/auth/login/page";
-// import { useAuthStore } from '@/core/state/auth' ← si usás Zustand
+import { Suspense } from "react";
+import LoginScreen from "@/presentation/auth/login/components/LoginScreen";
 
 export default function Page() {
   const router = useRouter();
@@ -14,5 +15,9 @@ export default function Page() {
     }
   }, [router, user]);
 
-  return <LoginScreen />;
+  return (
+    <Suspense fallback={<div>Cargando login...</div>}>
+      <LoginScreen />
+    </Suspense>
+  );
 }
