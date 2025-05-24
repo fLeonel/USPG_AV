@@ -1,34 +1,43 @@
-import { NoteRepositoryImpl } from "@/infra/repositories/fiebaseNotesRepository";
-import { GetNotesByUser } from "@/usecases/notes/getNoteByUser";
-import { UpdateNote } from "@/usecases/notes/updateNote";
-import { DeleteNote } from "@/usecases/notes/deleteNote";
 import { Note } from "@/core/domain/entities/notes";
-import { CreateNote } from "@/usecases/notes/createNote";
-import { GetNoteById } from "@/usecases/notes/getNoteById";
+import { NoteRepository } from "@/core/domain/repositories/noteRepository";
+import { createNoteService } from "@/core/services/noteService"; // o el path real
 
-const repo = new NoteRepositoryImpl();
+describe("noteService (unit)", () => {
+  const mockRepo: jest.Mocked<NoteRepository> = {
+    create: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+    getById: jest.fn(),
+    getAllByUser: jest.fn(),
+  };
 
-export const createNote = async (note: Note) => {
-  const useCase = new CreateNote(repo);
-  return await useCase.execute(note);
-};
+  const service = createNoteService(mockRepo); // ← INYECTAMOS MOCK
 
-export const getNotesByUser = async (userId: string) => {
-  const useCase = new GetNotesByUser(repo);
-  return await useCase.execute(userId);
-};
+  it("should get a note by ID", async () => {
+    const note = new Note(
+      "xyz",
+      "user-1",
+      "Title",
+      "Content",
+      false,
+      [],
+      new Date(),
+      new Date(),
+    );
 
-export const getNoteById = async (noteId: string) => {
-  const useCase = new GetNoteById(repo);
-  return await useCase.execute(noteId);
-};
+    mockRepo.getById.mockResolvedValueOnce(note);
 
-export const updateNote = async (note: Note) => {
-  const useCase = new UpdateNote(repo);
-  return await useCase.execute(note);
-};
+    const result = await service.getNoteById("xyz");
 
-export const deleteNote = async (id: string) => {
-  const useCase = new DeleteNote(repo);
-  return await useCase.execute(id);
-};
+    expect(mockRepo.getById).toHaveBeenCalledWith("xyz");
+    expect(result).toEqual(note);
+  });
+
+  it("should delete a note", async () => {
+    mockRepo.delete.mockResolvedValueOnce(undefined);
+
+    await service.deleteNote("abc");
+
+    expect(mockRepo.delete).toHaveBeenCalledWith("abc");
+  });
+});

@@ -8,9 +8,9 @@ export default {
     ...tsJestTransformCfg,
   },
   roots: ["<rootDir>/src/app/core"],
-  testMatch: ["**/test/**/*.test.ts"],
+  testMatch: ["**/test/**/test.*.ts"],
   moduleFileExtensions: ["ts", "js", "json"],
   moduleNameMapper: {
-    "^@/(.*)$": "<rootDir>/src/app/$1",
+    "^@/(.*)$": "<rootDir>/src/app/core/$1",
   },
 };

@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "bunx jest"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^6.1.17",
