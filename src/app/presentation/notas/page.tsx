@@ -9,6 +9,7 @@ import {
   createNote,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateNote,
+  deleteNote,
 } from "@/core/services/noteService";
 import { NoteEditor } from "./components/NoteEditor";
 import { getAuth } from "firebase/auth";
@@ -66,6 +67,26 @@ export default function NotesPage() {
     setSelectedNote(note);
   };
 
+  const handleDeleteNote = async (id: string) => {
+    try {
+      const confirmDelete = confirm("¿Seguro que quieres eliminar esta nota?");
+      if (!confirmDelete) return;
+
+      await deleteNote(id);
+      setNotes((prevNotes) => prevNotes.filter(note => note.id !== id));
+
+      // Si la nota eliminada estaba seleccionada, limpiar selección
+      if (selectedNote?.id === id) {
+        setSelectedNote(null);
+      }
+
+      alert("Nota eliminada correctamente.");
+    } catch (error) {
+      console.error("Error al eliminar la nota:", error);
+      alert("No se pudo eliminar la nota.");
+    }
+  };
+
   return (
     <SidebarLayout>
       {/* Panel izquierdo: lista */}
@@ -73,6 +94,7 @@ export default function NotesPage() {
         notes={notes}
         onNoteSelect={handleSelectNote}
         onCreateNote={handleCreateNote}
+        onDeleteNote={handleDeleteNote} 
       />
 
       {/* Panel derecho: editor */}
