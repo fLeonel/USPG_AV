@@ -10,12 +10,15 @@ interface NoteListProps {
   notes: Note[];
   onNoteSelect: (note: Note) => void;
   onCreateNote: () => void;
+  onDeleteNote: (id: string) => void; 
+  
 }
 
 export default function NoteList({
   notes,
   onNoteSelect,
   onCreateNote,
+  onDeleteNote,
 }: NoteListProps) {
   const [search, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState<SortOrder>("recent");
@@ -88,7 +91,12 @@ export default function NoteList({
                 <button className="text-blue-500 hover:text-blue-700">
                   <PencilIcon size={18} />
                 </button>
-                <button className="text-red-500 hover:text-red-700" disabled>
+                <button className="text-red-500 hover:text-red-700"
+                   onClick={(e) => {
+                      e.stopPropagation(); // para no seleccionar la nota al hacer clic
+                      onDeleteNote(note.id);
+                  }}
+                  >
                   <TrashIcon size={18} />
                 </button>
               </div>
