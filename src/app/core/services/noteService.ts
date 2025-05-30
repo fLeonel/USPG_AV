@@ -1,4 +1,4 @@
-import { NoteRepositoryImpl } from "@/infra/repositories/fiebaseNotesRepository";
+import { NoteRepositoryImpl } from "@/core/infra/repositories/fiebaseNotesRepository";
 import { GetNotesByUser } from "@/usecases/notes/getNoteByUser";
 import { UpdateNote } from "@/usecases/notes/updateNote";
 import { DeleteNote } from "@/usecases/notes/deleteNote";
