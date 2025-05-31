@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "docs": "typedoc"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^6.1.17",
@@ -48,6 +49,7 @@
     "globals": "^16.0.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.0.15",
+    "typedoc": "^0.28.5",
     "typescript": "^5",
     "typescript-eslint": "^8.31.1",
     "vitest": "^3.1.4"

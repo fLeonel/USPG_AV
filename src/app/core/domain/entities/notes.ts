@@ -1,4 +1,19 @@
+/**
+ * Representa una nota creada por un usuario.
+ */
 export class Note {
+  /**
+   * Crea una nueva instancia de la clase Note.
+   * 
+   * @param id - Identificador único de la nota.
+   * @param userId - ID del usuario que creó la nota.
+   * @param title - Título de la nota.
+   * @param content - Contenido de la nota.
+   * @param isPinned - Indica si la nota está fijada.
+   * @param tags - Lista de etiquetas asociadas a la nota.
+   * @param createdAt - Fecha de creación de la nota.
+   * @param updatedAt - Fecha de última modificación de la nota.
+   */
   constructor(
     public readonly id: string,
     public readonly userId: string,
@@ -10,6 +25,13 @@ export class Note {
     public readonly updatedAt: Date,
   ) {}
 
+  /**
+   * Crea una instancia de `Note` a partir de un objeto JSON.
+   * 
+   * @param id - Identificador único de la nota.
+   * @param json - Objeto con los datos provenientes de una fuente externa (por ejemplo, Firebase).
+   * @returns Una nueva instancia de `Note`.
+   */
   static fromJson(id: string, json: Record<string, unknown>): Note {
     return new Note(
       id,
@@ -23,6 +45,11 @@ export class Note {
     );
   }
 
+  /**
+   * Convierte la instancia de `Note` en un objeto JSON listo para ser guardado.
+   * 
+   * @returns Objeto con las propiedades serializadas.
+   */
   toJson(): Record<string, unknown> {
     return {
       user_id: this.userId,
