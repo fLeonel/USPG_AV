@@ -18,6 +18,7 @@
 /out/
 # Documentacion
 docs/
+/docs
 
 # production
 /build
