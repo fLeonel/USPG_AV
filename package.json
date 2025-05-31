@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "docs": "typedoc"
   },
   "dependencies": {
     "@fullcalendar/daygrid": "^6.1.17",
@@ -37,6 +40,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitest/ui": "^3.1.4",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.26.0",
     "eslint-config-next": "15.1.6",
@@ -45,7 +49,9 @@
     "globals": "^16.0.0",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.0.15",
+    "typedoc": "^0.28.5",
     "typescript": "^5",
-    "typescript-eslint": "^8.31.1"
+    "typescript-eslint": "^8.31.1",
+    "vitest": "^3.1.4"
   }
 }

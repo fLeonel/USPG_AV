@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from "react";
 import NoteList from "./components/NoteList";
-import SidebarLayout from "../auth/components/sidebarLayout";
 import { Note as DomainNote } from "@/core/domain/entities/notes";
 import {
   getNotesByUser,
   createNote,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  updateNote,
+  deleteNote,
 } from "@/core/services/noteService";
 import { NoteEditor } from "./components/NoteEditor";
 import { getAuth } from "firebase/auth";
@@ -18,7 +16,6 @@ export default function NotesPage() {
   const [notes, setNotes] = useState<DomainNote[]>([]);
   const [selectedNote, setSelectedNote] = useState<DomainNote | null>(null);
 
-  // 🔄 Cargar notas al iniciar
   useEffect(() => {
     const fetchNotes = async () => {
       const auth = getAuth();
@@ -30,7 +27,6 @@ export default function NotesPage() {
     fetchNotes();
   }, []);
 
-  // ➕ Crear una nueva nota
   const handleCreateNote = async () => {
     const auth = getAuth();
     const userId = auth.currentUser?.uid;
@@ -53,7 +49,6 @@ export default function NotesPage() {
     setSelectedNote(newNote);
   };
 
-  // ✅ Actualizar una nota después de guardar
   const handleUpdateNote = (updated: DomainNote) => {
     setNotes((prev) =>
       prev.map((note) => (note.id === updated.id ? updated : note)),
@@ -61,18 +56,37 @@ export default function NotesPage() {
     setSelectedNote(updated);
   };
 
-  // 🖱️ Seleccionar una nota para editarla
   const handleSelectNote = (note: DomainNote) => {
     setSelectedNote(note);
   };
 
+  const handleDeleteNote = async (id: string) => {
+    try {
+      const confirmDelete = confirm("¿Seguro que quieres eliminar esta nota?");
+      if (!confirmDelete) return;
+
+      await deleteNote(id);
+      setNotes((prevNotes) => prevNotes.filter((note) => note.id !== id));
+
+      if (selectedNote?.id === id) {
+        setSelectedNote(null);
+      }
+
+      alert("Nota eliminada correctamente.");
+    } catch (error) {
+      console.error("Error al eliminar la nota:", error);
+      alert("No se pudo eliminar la nota.");
+    }
+  };
+
   return (
-    <SidebarLayout>
+    <div className="flex h-full">
       {/* Panel izquierdo: lista */}
       <NoteList
         notes={notes}
         onNoteSelect={handleSelectNote}
         onCreateNote={handleCreateNote}
+        onDeleteNote={handleDeleteNote}
       />
 
       {/* Panel derecho: editor */}
@@ -85,6 +99,6 @@ export default function NotesPage() {
           </p>
         )}
       </section>
-    </SidebarLayout>
+    </div>
   );
 }

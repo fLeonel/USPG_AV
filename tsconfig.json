@@ -24,6 +24,7 @@
       "@/core/*": ["src/app/core/*"],
       "@/domain/*": ["src/app/core/domain/*"],
       "@/usecases/*": ["src/app/core/usecases/*"],
+      "@/services/": ["src/app/core/services/*"],
       "@/infra/*": ["src/app/core/infra/*"],
       "@/presentation/*": ["src/app/presentation/*"],
       "@/shared/*": ["src/app/shared/*"],
