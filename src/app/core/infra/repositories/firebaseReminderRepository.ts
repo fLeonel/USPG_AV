@@ -39,6 +39,8 @@ export class ReminderRepositoryImpl implements ReminderRepository {
   }
 
   async getByUser(userId: string): Promise<Reminders[]> {
+    if (!userId) throw new Error("El usuario es inválido o undefined");
+
     const q = query(remindersCollection, where("user_id", "==", userId));
     const snap = await getDocs(q);
 
