@@ -1,7 +1,6 @@
 "use client";
 
 import { useLoggedUserData } from "@/shared/hooks/useLoggedUserData";
-import SidebarLayout from "../components/sidebarLayout";
 import Header from "./components/Header";
 import Planificacion from "./components/Planificacion";
 import { useRouter } from "next/navigation";
@@ -23,11 +22,9 @@ export default function WelcomePage() {
   if (!user) return null;
 
   return (
-    <SidebarLayout>
+    <div className="flex flex-col w-full min-h-screen bg-gray-100 rounded-2xl text-[#171717] pt-14">
       <Header />
-      <div className="flex flex-col items-center bg-gray-100 rounded-2xl text-[#171717] min-h-screen pt-14">
-        <Planificacion />
-      </div>
-    </SidebarLayout>
+      <Planificacion />
+    </div>
   );
 }

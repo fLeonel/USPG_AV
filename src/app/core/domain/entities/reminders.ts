@@ -1,12 +1,13 @@
 import { Timestamp } from "firebase/firestore";
 
-export class Reminder {
+export class Reminders {
   constructor(
     public id: string,
     public title: string,
     public date: Date,
     public isCompleted: boolean,
     public user_id: string,
+    public category: string = "General",
   ) {}
 
   static fromJson(
@@ -16,14 +17,16 @@ export class Reminder {
       date: Timestamp | Date;
       isCompleted: boolean;
       user_id: string;
+      category?: string;
     },
-  ): Reminder {
-    return new Reminder(
+  ): Reminders {
+    return new Reminders(
       id,
       json.title,
       json.date instanceof Timestamp ? json.date.toDate() : new Date(json.date),
       json.isCompleted,
       json.user_id,
+      json.category ?? "General",
     );
   }
 
@@ -33,6 +36,7 @@ export class Reminder {
       date: this.date,
       isCompleted: this.isCompleted,
       user_id: this.user_id,
+      category: this.category,
     };
   }
 }
