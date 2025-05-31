@@ -18,7 +18,7 @@ describe("CreateNote", () => {
 
     const validNote = new Note(
       "note_id",
-      "user_id",
+      123,
       "Title",
       "Content",
       false,
