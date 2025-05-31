@@ -1,4 +1,4 @@
-import { Reminder } from "@/core/domain/entities/reminders";
+import { Reminders } from "@/core/domain/entities/reminders";
 import { ReminderRepositoryImpl } from "@/core/infra/repositories/firebaseReminderRepository";
 import { CreateReminder } from "@/usecases/reminders/createReminder";
 import { UpdateReminder } from "@/usecases/reminders/updateReminder";
@@ -8,12 +8,12 @@ import { GetReminderById } from "@/usecases/reminders/getReminderById";
 
 const repo = new ReminderRepositoryImpl();
 
-export const createReminder = async (reminder: Reminder) => {
+export const createReminder = async (reminder: Reminders) => {
   const useCase = new CreateReminder(repo);
   return await useCase.execute(reminder);
 };
 
-export const updateReminder = async (reminder: Reminder) => {
+export const updateReminder = async (reminder: Reminders) => {
   const useCase = new UpdateReminder(repo);
   return await useCase.execute(reminder);
 };

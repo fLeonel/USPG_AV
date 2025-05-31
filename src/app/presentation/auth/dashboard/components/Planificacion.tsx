@@ -8,48 +8,21 @@ import {
   BsCalendarWeek,
   BsPlus,
 } from "react-icons/bs";
+import {
+  getRemindersByUser,
+  createReminder,
+  updateReminder,
+} from "@/core/services/reminderService";
+import { Reminders } from "@/core/domain/entities/reminders";
+import { getAuth } from "firebase/auth";
+import { v4 as uuidv4 } from "uuid";
 
-// Interfaz tarea
 interface Tarea {
-  id: number;
+  id: string;
   titulo: string;
   fecha: string;
   completada: boolean;
-  categoria?: string;
-}
-
-// Simulación de fetch de tareas (pendiente de implementar API)
-async function obtenerTareas(): Promise<Tarea[]> {
-  return [
-    {
-      id: 1,
-      titulo: "Exponer el proyecto en la reunión de equipo",
-      fecha: "2025-05-18",
-      completada: false,
-      categoria: "Tasks",
-    },
-    {
-      id: 2,
-      titulo: "Revisar el copy de la campaña de email",
-      fecha: "2025-05-20",
-      completada: false,
-      categoria: "Campaign copy",
-    },
-    {
-      id: 3,
-      titulo: "Agregar el nuevo logo a la página de inicio",
-      fecha: "2025-05-21",
-      completada: false,
-      categoria: "Newsletter",
-    },
-    {
-      id: 5,
-      titulo: "Revisar el diseño de la nueva landing page",
-      fecha: "2025-05-23",
-      completada: false,
-      categoria: "Landing page",
-    },
-  ];
+  categoria: string;
 }
 
 function esMismaFecha(f1: Date, f2: Date) {
@@ -66,10 +39,19 @@ function agruparTareas(tareas: Tarea[]): Record<string, Tarea[]> {
   mañana.setDate(hoy.getDate() + 1);
 
   return {
-    Anteriormente: tareas.filter((t) => new Date(t.fecha) < hoy),
-    Hoy: tareas.filter((t) => esMismaFecha(new Date(t.fecha), hoy)),
-    Mañana: tareas.filter((t) => esMismaFecha(new Date(t.fecha), mañana)),
-    Próximamente: tareas.filter((t) => new Date(t.fecha) > mañana),
+    Anteriormente: tareas.filter(
+      (t) => new Date(t.fecha) < hoy && !t.completada,
+    ),
+    Hoy: tareas.filter(
+      (t) => esMismaFecha(new Date(t.fecha), hoy) && !t.completada,
+    ),
+    Mañana: tareas.filter(
+      (t) => esMismaFecha(new Date(t.fecha), mañana) && !t.completada,
+    ),
+    Próximamente: tareas.filter(
+      (t) => new Date(t.fecha) > mañana && !t.completada,
+    ),
+    Completadas: tareas.filter((t) => t.completada),
   };
 }
 
@@ -78,9 +60,9 @@ const iconosGrupo = {
   Hoy: <BsCalendarDay className="text-blue-500 mr-2" />,
   Mañana: <BsCalendarCheck className="text-green-500 mr-2" />,
   Próximamente: <BsCalendarWeek className="text-purple-500 mr-2" />,
+  Completadas: <BsCalendarCheck className="text-gray-400 mr-2" />,
 } as const;
 
-// Componente principal
 export default function Planificacion() {
   const [tareas, setTareas] = useState<Tarea[]>([]);
   const [agrupadas, setAgrupadas] = useState<Record<string, Tarea[]>>({});
@@ -88,42 +70,97 @@ export default function Planificacion() {
   const [fechaTarea, setFechaTarea] = useState("");
   const [categoriaTarea, setCategoriaTarea] = useState("");
 
+  const auth = getAuth();
+  const userId = auth.currentUser?.uid;
+
   useEffect(() => {
     async function cargar() {
-      const datos = await obtenerTareas();
-      setTareas(datos);
-      setAgrupadas(agruparTareas(datos));
+      if (!userId) return;
+
+      const datos: Reminders[] = await getRemindersByUser(userId);
+      const formateadas: Tarea[] = datos.map((r) => ({
+        id: r.id,
+        titulo: r.title,
+        fecha: r.date.toISOString(),
+        completada: r.isCompleted,
+        categoria: r.category,
+      }));
+
+      setTareas(formateadas);
+      setAgrupadas(agruparTareas(formateadas));
     }
+
     cargar();
-  }, []);
+  }, [userId]);
 
-  const agregarTarea = () => {
-    if (!nuevaTarea.trim() || !fechaTarea) return;
+  const agregarTarea = async () => {
+    if (!nuevaTarea.trim() || !fechaTarea || !userId) return;
 
-    const nueva: Tarea = {
-      id: Date.now(), // ID temporal
-      titulo: nuevaTarea,
-      fecha: fechaTarea,
-      completada: false,
-      categoria: categoriaTarea || "Tasks",
-    };
+    const reminder = new Reminders(
+      uuidv4(),
+      nuevaTarea,
+      new Date(fechaTarea),
+      false,
+      userId,
+      categoriaTarea || "General",
+    );
 
-    const nuevasTareas = [...tareas, nueva];
-    setTareas(nuevasTareas);
-    setAgrupadas(agruparTareas(nuevasTareas));
+    try {
+      await createReminder(reminder);
 
-    // Limpiar campos
-    setNuevaTarea("");
-    setFechaTarea("");
-    setCategoriaTarea("");
+      const nueva: Tarea = {
+        id: reminder.id,
+        titulo: reminder.title,
+        fecha: reminder.date.toISOString(),
+        completada: false,
+        categoria: reminder.category,
+      };
+
+      const nuevasTareas = [...tareas, nueva];
+      setTareas(nuevasTareas);
+      setAgrupadas(agruparTareas(nuevasTareas));
+
+      setNuevaTarea("");
+      setFechaTarea("");
+      setCategoriaTarea("");
+    } catch (err) {
+      console.error("Error al crear reminder:", err);
+      alert("Error al guardar la tarea.");
+    }
+  };
+
+  const marcarComoCompletada = async (id: string) => {
+    const tarea = tareas.find((t) => t.id === id);
+    if (!tarea || !userId) return;
+
+    const updatedReminder = new Reminders(
+      tarea.id,
+      tarea.titulo,
+      new Date(tarea.fecha),
+      true,
+      userId,
+      tarea.categoria,
+    );
+
+    try {
+      await updateReminder(updatedReminder);
+
+      const nuevasTareas = tareas.map((t) =>
+        t.id === id ? { ...t, completada: true } : t,
+      );
+      setTareas(nuevasTareas);
+      setAgrupadas(agruparTareas(nuevasTareas));
+    } catch (err) {
+      console.error("Error al completar tarea:", err);
+      alert("No se pudo completar la tarea.");
+    }
   };
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4 pb-24">
-      {" "}
-      {/* Contenido existente de las tareas */}
+      {/* 🟡 Mostrar tareas activas agrupadas */}
       {Object.entries(agrupadas).map(([grupo, lista]) =>
-        lista.length > 0 ? (
+        grupo !== "Completadas" && lista.length > 0 ? (
           <div key={grupo} className="mb-6">
             <div className="flex items-center mb-3">
               {iconosGrupo[grupo as keyof typeof iconosGrupo]}
@@ -139,10 +176,9 @@ export default function Planificacion() {
                   <div className="flex items-start gap-3">
                     <input
                       type="checkbox"
+                      checked={tarea.completada}
                       className="mt-1 h-5 w-5 text-green-600 accent-green-600 cursor-pointer"
-                      onChange={() => {
-                        // lógica para completar la tarea
-                      }}
+                      onChange={() => marcarComoCompletada(tarea.id)}
                     />
                     <div>
                       <p
@@ -162,9 +198,46 @@ export default function Planificacion() {
               ))}
             </div>
           </div>
-        ) : null
+        ) : null,
       )}
-      {/* Input fijo para agregar nuevas tareas */}
+
+      {/* ✅ Panel de tareas completadas */}
+      {agrupadas.Completadas?.length > 0 && (
+        <div className="mt-10 border-t pt-6">
+          <div className="flex items-center mb-3">
+            {iconosGrupo["Completadas"]}
+            <h3 className="text-xl font-bold text-gray-600">Completadas</h3>
+          </div>
+          <div className="space-y-3">
+            {agrupadas.Completadas.map((tarea) => (
+              <div
+                key={tarea.id}
+                className="flex items-center justify-between bg-gray-50 border border-gray-200 rounded-xl p-4"
+              >
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    checked
+                    disabled
+                    className="mt-1 h-5 w-5 text-green-600 accent-green-600 cursor-not-allowed"
+                  />
+                  <div>
+                    <p className="font-medium line-through text-gray-400">
+                      {tarea.titulo}
+                    </p>
+                    <p className="text-sm text-gray-500">{tarea.categoria}</p>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-400 whitespace-nowrap">
+                  {new Date(tarea.fecha).toLocaleDateString()}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ➕ Input para agregar nuevas tareas */}
       <div className="fixed bottom-0 left-65 right-0 bg-white border-t border-gray-200 py-4 px-4 shadow-lg">
         <div className="max-w-4xl mx-auto flex gap-2">
           <input
