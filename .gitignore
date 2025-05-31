@@ -9,7 +9,10 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-
+##
+docs/
+docs/**
+.docs
 # testing
 /coverage
 
