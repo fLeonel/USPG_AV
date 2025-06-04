@@ -16,6 +16,7 @@ import {
 import { Reminders } from "@/core/domain/entities/reminders";
 import { getAuth } from "firebase/auth";
 import { v4 as uuidv4 } from "uuid";
+import { motion, AnimatePresence  } from "framer-motion";
 
 interface Tarea {
   id: string;
@@ -40,16 +41,16 @@ function agruparTareas(tareas: Tarea[]): Record<string, Tarea[]> {
 
   return {
     Anteriormente: tareas.filter(
-      (t) => new Date(t.fecha) < hoy && !t.completada,
+      (t) => new Date(t.fecha) < hoy && !t.completada
     ),
     Hoy: tareas.filter(
-      (t) => esMismaFecha(new Date(t.fecha), hoy) && !t.completada,
+      (t) => esMismaFecha(new Date(t.fecha), hoy) && !t.completada
     ),
     Mañana: tareas.filter(
-      (t) => esMismaFecha(new Date(t.fecha), mañana) && !t.completada,
+      (t) => esMismaFecha(new Date(t.fecha), mañana) && !t.completada
     ),
     Próximamente: tareas.filter(
-      (t) => new Date(t.fecha) > mañana && !t.completada,
+      (t) => new Date(t.fecha) > mañana && !t.completada
     ),
     Completadas: tareas.filter((t) => t.completada),
   };
@@ -69,6 +70,7 @@ export default function Planificacion() {
   const [nuevaTarea, setNuevaTarea] = useState("");
   const [fechaTarea, setFechaTarea] = useState("");
   const [categoriaTarea, setCategoriaTarea] = useState("");
+  const [tareaRecienteId, setTareaRecienteId] = useState<string | null>(null);
 
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
@@ -102,7 +104,7 @@ export default function Planificacion() {
       new Date(fechaTarea),
       false,
       userId,
-      categoriaTarea || "General",
+      categoriaTarea || "General"
     );
 
     try {
@@ -118,6 +120,7 @@ export default function Planificacion() {
 
       const nuevasTareas = [...tareas, nueva];
       setTareas(nuevasTareas);
+      setTareaRecienteId(nueva.id);
       setAgrupadas(agruparTareas(nuevasTareas));
 
       setNuevaTarea("");
@@ -139,14 +142,14 @@ export default function Planificacion() {
       new Date(tarea.fecha),
       true,
       userId,
-      tarea.categoria,
+      tarea.categoria
     );
 
     try {
       await updateReminder(updatedReminder);
 
       const nuevasTareas = tareas.map((t) =>
-        t.id === id ? { ...t, completada: true } : t,
+        t.id === id ? { ...t, completada: true } : t
       );
       setTareas(nuevasTareas);
       setAgrupadas(agruparTareas(nuevasTareas));
@@ -166,47 +169,120 @@ export default function Planificacion() {
               {iconosGrupo[grupo as keyof typeof iconosGrupo]}
               <h3 className="text-xl font-bold text-[#171717]">{grupo}</h3>
             </div>
-
             <div className="space-y-3">
-              {lista.map((tarea) => (
-                <div
-                  key={tarea.id}
-                  className="flex items-center justify-between bg-white border border-gray-200 rounded-xl shadow-sm p-4 transition hover:shadow-md"
-                >
-                  <div className="flex items-start gap-3">
-                    <input
-                      type="checkbox"
-                      checked={tarea.completada}
-                      className="mt-1 h-5 w-5 text-green-600 accent-green-600 cursor-pointer"
-                      onChange={() => marcarComoCompletada(tarea.id)}
-                    />
-                    <div>
-                      <p
-                        className={`font-medium ${
-                          tarea.completada ? "line-through text-gray-400" : ""
-                        }`}
-                      >
-                        {tarea.titulo}
-                      </p>
-                      <p className="text-sm text-gray-500">{tarea.categoria}</p>
+              {lista.map((tarea) =>
+                tarea.id === tareaRecienteId ? (
+                  //👇 Animación para la tarea recién agregada
+                  <motion.div
+                    key={tarea.id}
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    onAnimationComplete={() => setTareaRecienteId(null)}
+                    className="flex items-center justify-between bg-white border border-gray-200 rounded-xl shadow-sm p-4 transition hover:shadow-md"
+                  >
+                    {/* Todo el contenido de la tarea, sin cambios */}
+                    <div className="flex items-start gap-3">
+                      <input
+                        type="checkbox"
+                        checked={tarea.completada}
+                        className="mt-1 h-5 w-5 text-green-600 accent-green-600 cursor-pointer"
+                        onChange={() => marcarComoCompletada(tarea.id)}
+                      />
+                      <div>
+                        <p
+                          className={`font-medium ${
+                            tarea.completada ? "line-through text-gray-400" : ""
+                          }`}
+                        >
+                          {tarea.titulo}
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm text-gray-500">
+                            {tarea.categoria}
+                          </p>{" "}
+                          <i className="bi bi-calendar2-event text-gray-500"></i>
+                          <p className="text-sm text-gray-500 whitespace-nowrap">
+                            {new Date(tarea.fecha).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button className="cursor-pointer flex items-center justify-center gap-1 py-2 px-3 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded-xl transition">
+                        <i className="bi bi-pencil"></i>
+                      </button>
+                      <button className="cursor-pointer flex items-center justify-center gap-1 py-2 px-3 bg-red-500 hover:bg-red-600 text-white text-sm rounded-xl transition">
+                        <i className="bi bi-archive"></i>
+                      </button>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <div
+                    key={tarea.id}
+                    className="flex items-center justify-between bg-white border border-gray-200 rounded-xl shadow-sm p-4 transition hover:shadow-md"
+                  >
+                    {/* Mismo contenido de la tarea */}
+                    <div className="flex items-start gap-3">
+                      <input
+                        type="checkbox"
+                        checked={tarea.completada}
+                        className="mt-1 h-5 w-5 text-green-600 accent-green-600 cursor-pointer"
+                        onChange={() => marcarComoCompletada(tarea.id)}
+                      />
+                      <div>
+                        <p
+                          className={`font-medium ${
+                            tarea.completada ? "line-through text-gray-400" : ""
+                          }`}
+                        >
+                          {tarea.titulo}
+                        </p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm text-gray-500">
+                            {tarea.categoria}
+                          </p>{" "}
+                          <i className="bi bi-calendar2-event text-gray-500"></i>
+                          <p className="text-sm text-gray-500 whitespace-nowrap">
+                            {new Date(tarea.fecha).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button className="cursor-pointer flex items-center justify-center gap-1 py-2 px-3 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded-xl transition">
+                        <i className="bi bi-pencil"></i>
+                      </button>
+                      <button className="cursor-pointer flex items-center justify-center gap-1 py-2 px-3 bg-red-500 hover:bg-red-600 text-white text-sm rounded-xl transition">
+                        <i className="bi bi-archive"></i>
+                      </button>
                     </div>
                   </div>
-                  <p className="text-sm text-gray-400 whitespace-nowrap">
-                    {new Date(tarea.fecha).toLocaleDateString()}
-                  </p>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </div>
-        ) : null,
+        ) : null
       )}
 
       {/* ✅ Panel de tareas completadas */}
       {agrupadas.Completadas?.length > 0 && (
         <div className="mt-10 border-t pt-6">
-          <div className="flex items-center mb-3">
-            {iconosGrupo["Completadas"]}
-            <h3 className="text-xl font-bold text-gray-600">Completadas</h3>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              {iconosGrupo["Completadas"]}
+              <h3 className="text-xl font-bold text-gray-600">Completadas</h3>
+            </div>
+            {/* ⏳ Botón para eliminar todas las tareas completadas*/}
+            <button
+              className="cursor-pointer inline-flex items-center gap-2 bg-red-100 text-red-600 hover:bg-red-200 border border-red-300 px-3 py-1.5 rounded-lg text-sm font-medium transition"
+              onClick={() => {
+                /* futura función */
+              }}
+            >
+              <i className="bi bi-trash3-fill"></i>
+              Eliminar todas
+            </button>
           </div>
           <div className="space-y-3">
             {agrupadas.Completadas.map((tarea) => (
@@ -225,12 +301,15 @@ export default function Planificacion() {
                     <p className="font-medium line-through text-gray-400">
                       {tarea.titulo}
                     </p>
-                    <p className="text-sm text-gray-500">{tarea.categoria}</p>
+                    <div className="flex items-center gap-2">
+                      <p className="text-sm text-gray-500">{tarea.categoria}</p>{" "}
+                      <i className="bi bi-calendar2-event text-gray-400"></i>
+                      <p className="text-sm text-gray-400 whitespace-nowrap">
+                        {new Date(tarea.fecha).toLocaleDateString()}
+                      </p>
+                    </div>
                   </div>
                 </div>
-                <p className="text-sm text-gray-400 whitespace-nowrap">
-                  {new Date(tarea.fecha).toLocaleDateString()}
-                </p>
               </div>
             ))}
           </div>
