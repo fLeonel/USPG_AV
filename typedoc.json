@@ -2,6 +2,7 @@
   "entryPoints": ["src"],
   "entryPointStrategy": "expand",
   "out": "docs",
+  "readme": "docs/custom/README.md",
   "includeVersion": true,
   "excludePrivate": true,
   "excludeInternal": true,
